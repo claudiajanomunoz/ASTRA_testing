@@ -1,0 +1,26 @@
+name: ALPACA testing workflow
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+    steps:
+      - name: Initialise ALPACA on Docker
+        run: |
+          docker start alpaca-web-1
+      - name: Connect to host
+        run: |
+          open -a Safari http://localhost:32323
+      - name: Run alpyca file
+        run: |
+          python /Users/claudiajano/Documents/PhD/Observations/ASTRA/ASTRA_testing-main/alpyca_tests.py
+      - name: Test with pytest
+        run: 
+          pytest
+
